@@ -19,7 +19,7 @@ function App() {
         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
         <Route path="/admin/createEmployee" element={<AdminRoute><CreateEmployeePage /></AdminRoute>} />
 
-        <Route path='/updateEmployee/:token' element={<AuthRoute><UpdateEmployeePage /></AuthRoute>}/>
+        <Route path='/updateEmployee/:token' element={<UpdateEmployeePage />}/>
         <Route path='/' element={<AuthRoute><LandingPage /></AuthRoute>}/>
         <Route path='/attendance-history' element={<AuthRoute><AttendanceHistoryPage /></AuthRoute>}/>
 

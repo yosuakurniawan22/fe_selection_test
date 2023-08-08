@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { IoMdArrowBack } from 'react-icons/io';
+import { AiOutlineLogout } from "react-icons/ai";
 
 export default function AttendanceHistoryPage() {
   const currentDate = new Date().toISOString().split('T')[0].substring(0, 7);
@@ -59,10 +62,38 @@ export default function AttendanceHistoryPage() {
     setCurrentPage(1);
   };
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+
+    navigate('/login');
+  }
+
   return (
     <section className="p-4 xl:p-8">
       <ToastContainer />
       
+      <div className='my-5 flex gap-2'>
+        <Link to="/" className='bg-blue-500 hover:bg-blue-600 transition-colors duration-300 ease-in-out p-3 rounded text-white font-bold inline-block'>
+          <div className='flex items-center gap-1'>
+            <IoMdArrowBack className='font-bold text-xl' /> 
+            <p>
+              Live Attendance
+            </p>
+          </div>
+        </Link>
+
+        <button to="/" className='bg-red-500 hover:bg-red-600 transition-colors duration-300 ease-in-out p-3 rounded text-white font-bold inline-block' onClick={handleLogout}>
+          <div className='flex items-center gap-1'>
+            <AiOutlineLogout className='font-bold text-xl' /> 
+            <p>
+              Logout
+            </p>
+          </div>
+        </button>
+      </div>
       <h1 className='font-bold text-4xl'>Attendance History</h1>
       
       <div className='flex gap-4'>
