@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function LandingPage() {
   const [currentTime, setCurrentTime] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [attendanceData, setAttendanceData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -101,9 +102,16 @@ export default function LandingPage() {
     }
   }
   
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+
+    navigate('/login');
+  }
+
   return (
     <section className="flex justify-center items-center min-h-screen p-4 xl:p-8 bg-gray-50">
-       <ToastContainer />
+      <ToastContainer />
       <div className='w-full lg:w-1/2'> 
         <div className="bg-white rounded shadow p-4 xl:p-8">
           <h1 className='text-center font-bold text-2xl'>
@@ -139,10 +147,14 @@ export default function LandingPage() {
             </button>
           </div>
         </div>
-        <div className='text-center'>
-          <Link to={'/attendance-history'} className='my-5 inline-block underline w-full text-blue-600 hover:text-blue-700 transition-colors duration-200 ease-in-out'>
+        <div className='text-center flex flex-col gap-2'>
+          <Link to={'/attendance-history'} className='mt-4 inline-block underline w-full text-blue-600 hover:text-blue-700 transition-colors duration-200 ease-in-out'>
             Show Attendance History
           </Link>
+
+          <button className='mt-2 transition-colors duration-200 ease-in-out px-4 py-2 bg-red-600 hover:bg-red-700 text-white mx-auto font-bold rounded-md' onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </div>
     </section>

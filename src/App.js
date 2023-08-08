@@ -6,6 +6,9 @@ import AdminPage from './pages/admin/AdminPage';
 import CreateEmployeePage from './pages/admin/CreateEmployeePage';
 import UpdateEmployeePage from './pages/UpdateEmployeePage';
 import LandingPage from './pages/LandingPage';
+import AttendanceHistoryPage from './pages/AttendanceHistoryPage';
+import AdminRoute from './AdminRoute';
+import AuthRoute from './AuthRoute';
 
 function App() {
   return (
@@ -13,11 +16,12 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
 
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/createEmployee" element={<CreateEmployeePage />} />
+        <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+        <Route path="/admin/createEmployee" element={<AdminRoute><CreateEmployeePage /></AdminRoute>} />
 
-        <Route path='/updateEmployee/:token' element={<UpdateEmployeePage />}/>
-        <Route path='/' element={<LandingPage />}/>
+        <Route path='/updateEmployee/:token' element={<AuthRoute><UpdateEmployeePage /></AuthRoute>}/>
+        <Route path='/' element={<AuthRoute><LandingPage /></AuthRoute>}/>
+        <Route path='/attendance-history' element={<AuthRoute><AttendanceHistoryPage /></AuthRoute>}/>
 
         <Route path='/unauthorized' element={<Unauthorized />}/>
         <Route path='/error' element={<ErrorPage />} />

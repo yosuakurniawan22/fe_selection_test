@@ -5,15 +5,25 @@ import jwtDecode from 'jwt-decode';
 export default function AdminRoute({ children }) {
   const token = localStorage.getItem('token');
 
-  if(!token) {
+  if (!token) {
     return <Navigate to="/login" />;
   }
 
-  const decodedToken = jwtDecode(token);
-  const isAdmin = decodedToken.userRole === 1;
+  try {
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
 
-  if (!isAdmin) {
-    return <Navigate to="/unauthorized" />;
+    if (decodedToken.exp < currentTime) {
+      return <Navigate to="/login" />;
+    }
+
+    const isAdmin = decodedToken.userRole === 1;
+
+    if (!isAdmin) {
+      return <Navigate to="/unauthorized" />;
+    }
+  } catch (error) {
+    return <Navigate to="/login" />;
   }
 
   return children;
