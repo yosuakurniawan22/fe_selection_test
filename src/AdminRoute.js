@@ -10,7 +10,7 @@ export default function AdminRoute({ children }) {
   }
 
   const decodedToken = jwtDecode(token);
-  const isAdmin = decodedToken.user_role === 1;
+  const isAdmin = decodedToken.userRole === 1;
 
   if (!isAdmin) {
     return <Navigate to="/unauthorized" />;

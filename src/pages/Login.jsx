@@ -6,6 +6,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import jwtDecode from 'jwt-decode';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,16 +34,22 @@ export default function Login() {
         body
       );
 
-      console.log(response);
-
-      const token = response.data.data.token;
+      const token = response.data.token;
 
       localStorage.setItem('token', token);
       localStorage.setItem('id', response.data.data.id);
 
       toast.success(response.data.message);
 
-      navigate('/');
+      const decodedToken = jwtDecode(token);
+
+      const isAdmin = decodedToken.userRole === 1;
+
+      if(isAdmin) {
+        navigate('/admin');
+      } else {
+        navigate('/')
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -111,7 +118,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-md text-sm px-5 py-2.5 text-center font-bold"
+              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-md text-sm px-5 py-2.5 text-center font-bold  transition-colors ease-in-out duration-300"
             >
               Submit
             </button>
